@@ -1,0 +1,22 @@
+{
+	"title": "MultiPlay Rivet Integration (W.I.P)",
+	"author": "maji",
+	"category_id": "1",
+	"godot_version": "4.2",
+	"mpc_version": "1.0.0",
+	"support_level": "testing",
+	"cost": "MIT",
+	"version": "1",
+	"version_string": "0.0.1",
+	"icon_url": "https://raw.githubusercontent.com/...",
+	"description": "Work in progress Rivet Support for Multiplay Core!",
+	"download_branch": "master",
+	"previews": [
+		{
+			"preview_id": "1",
+			"type": "image",
+			"link": "https://….png",
+			"thumbnail": "https://….png"
+		}
+	]
+}

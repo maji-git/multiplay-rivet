@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://bah4jkruvyc1l"]
+
+[ext_resource type="Script" path="res://addons/MultiplayCore/MultiPlay.gd" id="1_0bslt"]
+[ext_resource type="Script" path="res://mp-addons/mpc-rivet/RivetNetProtocol.gd" id="2_54dsi"]
+[ext_resource type="PackedScene" uid="uid://bh3eicxcruiih" path="res://demo/scenes/player.tscn" id="2_smavd"]
+[ext_resource type="Script" path="res://mp-addons/mpc-rivet/RivetIgnite.gd" id="3_4u0rx"]
+[ext_resource type="PackedScene" uid="uid://ca6vuiof6mwa" path="res://demo/scenes/levels/level_1.tscn" id="3_26g2a"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MultiPlayCore" type="Node" parent="."]
+script = ExtResource("1_0bslt")
+port = 10567
+max_players = 10
+player_scene = ExtResource("2_smavd")
+first_scene = ExtResource("3_26g2a")
+
+[node name="RivetNetProtocol" type="Node" parent="MultiPlayCore"]
+script = ExtResource("2_54dsi")
+
+[node name="RivetIgnite" type="Node" parent="MultiPlayCore"]
+script = ExtResource("3_4u0rx")
