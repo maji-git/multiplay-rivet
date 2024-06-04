@@ -8,15 +8,15 @@
 	"cost": "MIT",
 	"version": "1",
 	"version_string": "0.0.1",
-	"icon_url": "https://raw.githubusercontent.com/...",
+	"icon_url": "https://raw.githubusercontent.com/maji-git/multiplay-rivet/main/logo.png",
 	"description": "Work in progress Rivet Support for Multiplay Core!",
 	"download_branch": "master",
 	"previews": [
 		{
 			"preview_id": "1",
 			"type": "image",
-			"link": "https://….png",
-			"thumbnail": "https://….png"
+			"link": "https://raw.githubusercontent.com/maji-git/multiplay-rivet/main/thumbnail.png",
+			"thumbnail": "https://raw.githubusercontent.com/maji-git/multiplay-rivet/main/thumbnail.png"
 		}
 	]
 }
