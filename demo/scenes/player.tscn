@@ -55,4 +55,4 @@ horizontal_alignment = 1
 
 [node name="MPTransformSync" type="Node" parent="."]
 script = ExtResource("3_ol2mu")
-lerp_speed = 100
+lerp_speed = 50

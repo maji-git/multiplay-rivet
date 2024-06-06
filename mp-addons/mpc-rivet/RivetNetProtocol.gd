@@ -1,3 +1,4 @@
+@icon("res://mp-addons/mpc-rivet/icons/RivetNetProtocol.svg")
 extends ENetProtocol
 
 class_name RivetNetProtocol
@@ -30,16 +31,14 @@ func host(port, bind_ip, max_players) -> MultiplayerPeer:
 func join(address, _port) -> MultiplayerPeer:
 	role = "client"
 	
+	mpc.debug_status_txt = "Finding Rivet Lobby '{address}'...".format({address = address})
+	
 	var response = await Rivet.matchmaker.lobbies.find({
 		"game_modes": [address]
 	})
 	
-	print("response: ", response.result)
-	
 	if response.result != OK:
 		assert(false, "Lobby find failed")
-	
-	print(response.body)
 	
 	RivetHelper.set_player_token(response.body.player.token)
 	

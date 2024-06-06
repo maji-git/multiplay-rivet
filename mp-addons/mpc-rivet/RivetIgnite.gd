@@ -1,12 +1,24 @@
+@icon("res://mp-addons/mpc-rivet/icons/RivetIgnite.svg")
 extends MPExtension
 
-func _ready():
+## Rivet Server Starter
+class_name RivetIgnite
+
+## Start automatically as client
+@export var auto_start_client: bool = false
+
+## Gamemode Lobby name to join, only works with auto_start_client enabled.
+@export var client_join_gamemode: String = "default"
+
+func _mpc_ready():
 	super()
 	RivetHelper.start_server.connect(start_server)
+	RivetHelper.start_client.connect(start_client)
 	RivetHelper.setup_multiplayer()
 
 func start_server():
-	await get_tree().create_timer(0.5).timeout
-	print("[MPC-Rivet] Starting Online Host")
 	mpc.start_online_host()
-	print("[MPC-Rivet] Called MPC")
+
+func start_client():
+	if auto_start_client:
+		mpc.start_online_join(client_join_gamemode)

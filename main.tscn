@@ -14,9 +14,11 @@ port = 10567
 max_players = 10
 player_scene = ExtResource("2_smavd")
 first_scene = ExtResource("3_26g2a")
+swap_input_action = "swap"
 
 [node name="RivetNetProtocol" type="Node" parent="MultiPlayCore"]
 script = ExtResource("2_54dsi")
 
 [node name="RivetIgnite" type="Node" parent="MultiPlayCore"]
 script = ExtResource("3_4u0rx")
+auto_start_client = true
