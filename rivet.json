@@ -9,7 +9,7 @@
 	  "ports": {
 		"default": {
 		  "port": 10567,
-		  "protocol": "udp"
+		  "protocol": "http"
 		}
 	  }
 	},

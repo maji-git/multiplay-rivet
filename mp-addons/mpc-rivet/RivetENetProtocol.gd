@@ -1,7 +1,7 @@
-@icon("res://mp-addons/mpc-rivet/icons/RivetNetProtocol.svg")
+@icon("res://mp-addons/mpc-rivet/icons/RivetENetProtocol.svg")
 extends ENetProtocol
 
-class_name RivetNetProtocol
+class_name RivetENetProtocol
 
 func _override_debug_url(bind_ip, port):
 	return "default"

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<title>$GODOT_PROJECT_NAME</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Victor+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+		rel="stylesheet">
+	<style>
+		body {
+			touch-action: none;
+			margin: 0;
+			border: 0 none;
+			padding: 0;
+			text-align: center;
+			background-color: #111A16;
+			transition: background-color 1s;
+			overflow: hidden;
+		}
+
+		#canvas {
+			display: block;
+			margin: 0;
+			color: white;
+		}
+
+		#canvas:focus {
+			outline: none;
+		}
+
+		.godot {
+			font-family: "Victor Mono", monospace;
+			color: #FF9AA0;
+			background-color: transparent;
+			border-left: 1px solid #FF9AA0;
+			border-right: 1px solid #FF9AA0;
+
+			min-width: 600px;
+			min-height: 200px;
+			align-content: center;
+
+			animation: errorPop 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+		}
+
+		@keyframes errorPop {
+			0% {
+				transform: scaleX(0.1);
+				background-color: #ff9aa11a;
+			}
+
+			100% {
+				transform: scaleX(1);
+				background-color: #ff9aa100;
+			}
+		}
+
+		/* Status display */
+
+		#status {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			--progress: 0;
+		}
+
+		#status.in {
+			animation: statusGone 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+			animation-fill-mode: forwards;
+			pointer-events: none;
+		}
+
+		@keyframes statusGone {
+			0% {
+				transform: scale(1);
+				opacity: 1;
+			}
+
+			100% {
+				transform: scale(1.2);
+				opacity: 0;
+				display: none;
+			}
+		}
+
+		#status-progress {
+			width: 366px;
+			height: 10px;
+			border: solid 3px #5D7B6F;
+			visibility: visible;
+
+			animation: statusProg 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+		}
+
+		@keyframes statusProg {
+			0% {
+				transform: scaleX(0.2);
+				opacity: 0;
+			}
+
+			100% {
+				transform: scaleX(1);
+				opacity: 1;
+			}
+		}
+
+		@media only screen and (orientation:portrait) {
+			#status-progress {
+				width: 61.8%;
+			}
+		}
+
+		#status-progress-inner {
+			height: 100%;
+			width: 20%;
+			box-sizing: border-box;
+			transition: width 0.5s linear;
+			background: linear-gradient(270deg, #B0D4B8 0%, rgba(176, 212, 184, 0.6) 100%);
+			outline: solid 7px #111A16;
+		}
+
+		#bootup-txt {
+			font-family: "Victor Mono", monospace;
+			color: #CFE1D3;
+			margin-bottom: 1em;
+			display: block;
+			visibility: visible;
+			animation: fadeInOut 5s linear infinite;
+		}
+
+		#credits-txt {
+			font-family: "Victor Mono", monospace;
+			color: #CFE1D3;
+			margin-top: 1em;
+			display: block;
+			visibility: visible;
+			font-size: 0.8rem;
+			opacity: 0.5;
+		}
+
+		@keyframes fadeInOut {
+			0% {
+				opacity: 1;
+			}
+
+			50% {
+				opacity: 0.5;
+			}
+
+			100% {
+				opacity: 1;
+			}
+		}
+
+		#status-notice {
+			margin: 0 100px;
+			line-height: 1.3;
+			visibility: visible;
+			padding: 4px 6px;
+			visibility: visible;
+		}
+
+		.bd {
+			animation: bdJump 1s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+			display: inline-block;
+		}
+
+		.bd:nth-child(2) {
+			animation-delay: 250ms;
+		}
+
+		.bd:nth-child(3) {
+			animation-delay: 500ms;
+		}
+
+		body.indeterminate #status {
+			animation: statusFade 0.2s forwards;
+		}
+
+		body.indeterminate {
+			background-color: black;
+		}
+
+		@keyframes statusFade {
+			0% {
+				opacity: 1;
+			}
+
+			100% {
+				opacity: 0;
+			}
+		}
+
+		@keyframes bdJump {
+			0% {
+				transform: translateY(0);
+			}
+
+			25% {
+				transform: translateY(-5px);
+			}
+
+			50% {
+				transform: translateY(0);
+			}
+
+			100% {
+				transform: translateY(0);
+			}
+		}
+	</style>
+	$GODOT_HEAD_INCLUDE
+</head>
+
+<body class="">
+	<canvas id="canvas">
+		HTML5 canvas appears to be unsupported in the current browser.<br>
+		Please try updating or use a different browser.
+	</canvas>
+	<div id="status">
+		<div id="bootup-txt">Booting Up<span class="bd">.</span><span class="bd">.</span><span class="bd">.</span></div>
+		<div id="status-progress" oncontextmenu="event.preventDefault();">
+			<div id="status-progress-inner"></div>
+		</div>
+		<div id="status-notice" class="godot" style="display: none;"></div>
+		<p id="credits-txt">hi maji! godot html shell</p>
+	</div>
+	</div>
+
+	<script src="$GODOT_URL"></script>
+	<script>
+		const GODOT_CONFIG = $GODOT_CONFIG;
+		const engine = new Engine(GODOT_CONFIG);
+
+		(function () {
+			const INDETERMINATE_STATUS_STEP_MS = 100;
+			const statusPage = document.querySelector("#status")
+			const statusProgress = document.getElementById('status-progress');
+			const statusProgressInner = document.getElementById('status-progress-inner');
+			const statusNotice = document.getElementById('status-notice');
+
+			let initializing = true;
+			let statusMode = 'hidden';
+
+			let animationCallbacks = [];
+			function animate(time) {
+				animationCallbacks.forEach((callback) => callback(time));
+				requestAnimationFrame(animate);
+			}
+			requestAnimationFrame(animate);
+
+
+			function setStatusMode(mode) {
+				if (statusMode === mode || !initializing) {
+					return;
+				}
+				switch (mode) {
+					case 'progress':
+						statusProgress.style.display = 'block';
+						break;
+					case 'indeterminate':
+						document.body.classList.add("indeterminate")
+						break;
+					case 'notice':
+						statusNotice.style.display = 'block';
+						statusProgress.style.display = 'none';
+						document.querySelector("#bootup-txt").style.display = 'none';
+						break;
+					case 'hidden':
+						statusPage.classList.add("in")
+						break;
+					default:
+						throw new Error('Invalid status mode');
+				}
+				statusMode = mode;
+			}
+
+			function setStatusNotice(text) {
+				while (statusNotice.lastChild) {
+					statusNotice.removeChild(statusNotice.lastChild);
+				}
+				const lines = text.split('\n');
+				lines.forEach((line) => {
+					statusNotice.appendChild(document.createTextNode(line));
+					statusNotice.appendChild(document.createElement('br'));
+				});
+			}
+
+			function displayFailureNotice(err) {
+				const msg = err.message || err;
+				console.error(msg);
+				setStatusNotice(msg);
+				setStatusMode('notice');
+				initializing = false;
+			}
+
+			const missing = Engine.getMissingFeatures();
+			if (missing.length !== 0) {
+				const missingMsg = 'Error\nThe following features required to run Godot projects on the Web are missing:\n';
+				displayFailureNotice(missingMsg + missing.join('\n'));
+			} else {
+				setStatusMode('indeterminate');
+				engine.startGame({
+					'onProgress': function (current, total) {
+						if (total > 0) {
+							statusProgressInner.style.width = `${(current / total) * 100}%`;
+							setStatusMode('progress');
+							if (current === total) {
+								// wait for progress bar animation
+								setTimeout(() => {
+									setStatusMode('indeterminate');
+								}, 500);
+							}
+						} else {
+							setStatusMode('indeterminate');
+						}
+					},
+				}).then(() => {
+					setStatusMode('hidden');
+					initializing = false;
+				}, displayFailureNotice);
+			}
+		}());
+	</script>
+</body>
+
+</html>
